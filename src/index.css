@@ -136,11 +136,3 @@ input[type="range"].slider::-moz-range-thumb {
 .metric-reveal {
   animation: metricReveal 240ms ease-out;
 }
-
-.simulation-controls-card {
-  background: linear-gradient(
-    180deg,
-    rgba(239, 234, 255, 0.72) 0%,
-    rgba(232, 251, 247, 0.72) 100%
-  );
-}

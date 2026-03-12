@@ -26,7 +26,6 @@ export function SimulationControls({
     <SectionCard
       title="Simulation Controls"
       description="Adjust the parameters and run the simulation."
-      // className="simulation-controls-card"
     >
       <div className="space-y-5">
         <SliderField
