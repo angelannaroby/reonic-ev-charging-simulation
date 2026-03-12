@@ -11,23 +11,29 @@ export function ToggleField({
 }: ToggleFieldProps) {
   return (
     <div className="flex items-center justify-between gap-4">
-      <label className="text-sm font-medium text-slate-700">{label}</label>
+      <label
+        className="text-sm font-medium"
+        style={{ color: "var(--text)" }}
+      >
+        {label}
+      </label>
 
       <button
         type="button"
         role="switch"
         aria-checked={checked}
         onClick={() => onChange(!checked)}
-        className={`relative inline-flex h-[18px] w-8 items-center rounded-full border transition-colors ${
-          checked
-            ? "border-slate-950 bg-slate-950"
-            : "border-slate-300 bg-slate-200"
-        }`}
+        className="relative inline-flex h-[18px] w-8 items-center rounded-full border transition-colors"
+        style={{
+          borderColor: checked ? "var(--accent)" : "var(--border)",
+          backgroundColor: checked ? "var(--accent)" : "var(--surface)",
+        }}
       >
         <span
-          className={`inline-block h-3.5 w-3.5 rounded-full bg-white transition-transform ${
+          className={`inline-block h-3.5 w-3.5 rounded-full shadow-sm transition-transform ${
             checked ? "translate-x-[16px]" : "translate-x-[1px]"
           }`}
+          style={{ backgroundColor: "var(--surface)" }}
         />
       </button>
     </div>

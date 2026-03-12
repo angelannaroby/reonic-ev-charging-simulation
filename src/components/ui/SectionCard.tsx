@@ -17,12 +17,29 @@ export function SectionCard({
   children,
 }: SectionCardProps) {
   return (
-    <section className={`rounded-3xl bg-white ${className}`}>
+    <section
+      className={`rounded-3xl border ${className}`}
+      style={{
+        backgroundColor: "var(--surface)",
+        borderColor: "var(--border)",
+        boxShadow: "var(--shadow)",
+      }}
+    >
       <div className="flex items-start justify-between gap-4 px-5 py-4 sm:px-5">
-        <div>
-          <h2 className="text-[1.05rem] font-semibold text-slate-950">{title}</h2>
+        <div className="min-w-0">
+          <h2
+            className="text-[1.02rem] font-semibold"
+            style={{ color: "var(--text)" }}
+          >
+            {title}
+          </h2>
           {description ? (
-            <p className="mt-1 text-[15px] leading-6 text-slate-600">{description}</p>
+            <p
+              className="mt-1 text-sm leading-5"
+              style={{ color: "var(--text-muted)" }}
+            >
+              {description}
+            </p>
           ) : null}
         </div>
 

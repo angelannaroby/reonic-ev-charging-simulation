@@ -9,9 +9,10 @@ export type SimulationInputs = {
 
 export type SummaryMetric = {
   label: string
-  value: string
+  value: number
   unit?: string
   icon: "energy" | "theoretical" | "actual" | "concurrency"
+  maximumFractionDigits?: number
 }
 
 export type LoadChartPoint = {

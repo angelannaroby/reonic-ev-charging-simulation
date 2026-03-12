@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import "./theme.css";
 
 :root {
   font-family:
@@ -10,8 +11,8 @@
     sans-serif;
   line-height: 1.5;
   font-weight: 400;
-  color: #0f172a;
-  background: #f8fafc;
+  color: var(--text);
+  background: var(--bg);
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -31,8 +32,21 @@ body,
 
 body {
   margin: 0;
-  background: #f8fafc;
-  color: #0f172a;
+  background: var(--bg);
+  color: var(--text);
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+  color: inherit;
+}
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  margin: 0;
 }
 
 input[type="range"].slider {
@@ -43,10 +57,10 @@ input[type="range"].slider {
   border-radius: 9999px;
   background: linear-gradient(
     to right,
-    #020617 0%,
-    #020617 var(--fill-percent, 0%),
-    #e5e7eb var(--fill-percent, 0%),
-    #e5e7eb 100%
+    var(--success) 0%,
+    var(--success) var(--fill-percent, 0%),
+    var(--border) var(--fill-percent, 0%),
+    var(--border) 100%
   );
   outline: none;
   cursor: pointer;
@@ -61,12 +75,12 @@ input[type="range"].slider::-webkit-slider-runnable-track {
 input[type="range"].slider::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
-  width: 14px;
-  height: 14px;
+  width: 16px;
+  height: 16px;
   border-radius: 9999px;
-  background: #ffffff;
-  border: 1.5px solid #0f172a;
-  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.12);
+  background: var(--surface);
+  border: 2px solid var(--success);
+  box-shadow: 0 2px 8px rgba(71, 215, 192, 0.22);
   cursor: pointer;
   margin-top: -6px;
 }
@@ -74,21 +88,59 @@ input[type="range"].slider::-webkit-slider-thumb {
 input[type="range"].slider::-moz-range-track {
   height: 4px;
   border-radius: 9999px;
-  background: #e5e7eb;
+  background: var(--border);
 }
 
 input[type="range"].slider::-moz-range-progress {
   height: 4px;
   border-radius: 9999px;
-  background: #020617;
+  background: var(--success);
 }
 
 input[type="range"].slider::-moz-range-thumb {
-  width: 16px;
-  height: 16px;
+  width: 14px;
+  height: 14px;
   border-radius: 9999px;
-  background: #ffffff;
-  border: 1.5px solid #0f172a;
-  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.12);
+  background: var(--surface);
+  border: 2px solid var(--success);
+  box-shadow: 0 2px 8px rgba(71, 215, 192, 0.22);
   cursor: pointer;
+}
+
+@keyframes chartReveal {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes metricReveal {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.chart-reveal {
+  animation: chartReveal 280ms ease-out;
+}
+
+.metric-reveal {
+  animation: metricReveal 240ms ease-out;
+}
+
+.simulation-controls-card {
+  background: linear-gradient(
+    180deg,
+    rgba(239, 234, 255, 0.72) 0%,
+    rgba(232, 251, 247, 0.72) 100%
+  );
 }
