@@ -1,20 +1,13 @@
 type ToggleFieldProps = {
-  label: string
-  checked: boolean
-  onChange: (checked: boolean) => void
-}
+  label: string;
+  checked: boolean;
+  onChange: (checked: boolean) => void;
+};
 
-export function ToggleField({
-  label,
-  checked,
-  onChange,
-}: ToggleFieldProps) {
+export function ToggleField({ label, checked, onChange }: ToggleFieldProps) {
   return (
     <div className="flex items-center justify-between gap-4">
-      <label
-        className="text-sm font-medium"
-        style={{ color: "var(--text)" }}
-      >
+      <label className="text-sm font-medium" style={{ color: "var(--text)" }}>
         {label}
       </label>
 
@@ -37,5 +30,5 @@ export function ToggleField({
         />
       </button>
     </div>
-  )
+  );
 }

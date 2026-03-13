@@ -1,6 +1,11 @@
-export const QUARTER_HOURS_PER_DAY = 96
-export const TICK_DURATION_HOURS = 0.25
-export const AVERAGE_DAYS_PER_MONTH = 365 / 12
+export const QUARTER_HOURS_PER_DAY = 96;
+export const TICK_DURATION_HOURS = 0.25;
+export const AVERAGE_DAYS_PER_MONTH = 365 / 12;
+
+export type ChargingDemandDistributionEntry = {
+  probability: number;
+  distanceKm: number;
+};
 
 export const ARRIVAL_PROBABILITIES_BY_HOUR: number[] = [
   0.0094, // 00:00 - 01:00
@@ -27,12 +32,9 @@ export const ARRIVAL_PROBABILITIES_BY_HOUR: number[] = [
   0.0472, // 21:00 - 22:00
   0.0094, // 22:00 - 23:00
   0.0094, // 23:00 - 24:00
-]
+];
 
-export const CHARGING_DEMAND_DISTRIBUTION: Array<{
-  probability: number
-  distanceKm: number
-}> = [
+export const CHARGING_DEMAND_DISTRIBUTION: ChargingDemandDistributionEntry[] = [
   { probability: 0.3431, distanceKm: 0 },
   { probability: 0.049, distanceKm: 5 },
   { probability: 0.098, distanceKm: 10 },
@@ -42,4 +44,4 @@ export const CHARGING_DEMAND_DISTRIBUTION: Array<{
   { probability: 0.1078, distanceKm: 100 },
   { probability: 0.049, distanceKm: 200 },
   { probability: 0.0294, distanceKm: 300 },
-]
+];

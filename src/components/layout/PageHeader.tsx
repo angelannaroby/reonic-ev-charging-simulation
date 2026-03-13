@@ -1,37 +1,48 @@
-import { Activity, BatteryCharging, Gauge, Layers3 } from "lucide-react"
+import { Activity, BatteryCharging, Gauge, Layers3 } from "lucide-react";
 
 type SummaryItem = {
-  label: string
-  value: number
-  unit?: string
-  icon: "energy" | "theoretical" | "actual" | "concurrency"
-  maximumFractionDigits?: number
-}
+  label: string;
+  value: number;
+  unit?: string;
+  icon: "energy" | "theoretical" | "actual" | "concurrency";
+  maximumFractionDigits?: number;
+};
 
 type PageHeaderProps = {
-  title: string
-  summaryItems: SummaryItem[]
-}
+  title: string;
+  summaryItems: SummaryItem[];
+};
 
 function SummaryIcon({ icon }: { icon: SummaryItem["icon"] }) {
   switch (icon) {
     case "energy":
-      return <BatteryCharging className="h-3.5 w-3.5" style={{ color: "var(--success)" }} />
+      return (
+        <BatteryCharging
+          className="h-3.5 w-3.5"
+          style={{ color: "var(--success)" }}
+        />
+      );
     case "theoretical":
-      return <Gauge className="h-3.5 w-3.5" style={{ color: "var(--accent)" }} />
+      return (
+        <Gauge className="h-3.5 w-3.5" style={{ color: "var(--accent)" }} />
+      );
     case "actual":
-      return <Activity className="h-3.5 w-3.5" style={{ color: "var(--warning)" }} />
+      return (
+        <Activity className="h-3.5 w-3.5" style={{ color: "var(--warning)" }} />
+      );
     case "concurrency":
-      return <Layers3 className="h-3.5 w-3.5" style={{ color: "var(--accent)" }} />
+      return (
+        <Layers3 className="h-3.5 w-3.5" style={{ color: "var(--accent)" }} />
+      );
     default:
-      return null
+      return null;
   }
 }
 
 function formatNumber(value: number, maximumFractionDigits = 0) {
   return new Intl.NumberFormat("en-US", {
     maximumFractionDigits,
-  }).format(value)
+  }).format(value);
 }
 
 export function PageHeader({ title, summaryItems }: PageHeaderProps) {
@@ -96,5 +107,5 @@ export function PageHeader({ title, summaryItems }: PageHeaderProps) {
         </div>
       </div>
     </header>
-  )
+  );
 }

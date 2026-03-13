@@ -1,12 +1,12 @@
 type NumberFieldProps = {
-  label: string
-  value: number
-  min: number
-  max: number
-  step?: number
-  suffix?: string
-  onChange: (value: number) => void
-}
+  label: string;
+  value: number;
+  min: number;
+  max: number;
+  step?: number;
+  suffix?: string;
+  onChange: (value: number) => void;
+};
 
 export function NumberField({
   label,
@@ -53,5 +53,5 @@ export function NumberField({
         ) : null}
       </div>
     </div>
-  )
+  );
 }

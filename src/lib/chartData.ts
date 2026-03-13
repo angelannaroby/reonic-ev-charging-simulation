@@ -1,20 +1,15 @@
-import type { LoadChartPoint } from "../types"
+import type { LoadChartPoint } from "../types";
 
 type SampledLoadPoint = {
-  label: string
-  activePowerKw: number
-}
+  label: string;
+  activePowerKw: number;
+};
 
 type DayChartPoint = {
-  label: string
-  activePowerKw: number
-}
+  label: string;
+  activePowerKw: number;
+};
 
-/**
- * Builds a reduced chart series for long time ranges while preserving peaks.
- * This avoids misleading visuals where the KPI shows the real annual peak
- * but the chart only shows smoothed averages.
- */
 export function sampleLoadProfile(
   loadProfile: LoadChartPoint[],
   targetPoints = 96,
@@ -23,69 +18,65 @@ export function sampleLoadProfile(
     return loadProfile.map((point) => ({
       label: `D${point.day + 1} ${formatQuarterHour(point.quarterHourIndex)}`,
       activePowerKw: point.activePowerKw,
-    }))
+    }));
   }
 
-  const bucketSize = Math.ceil(loadProfile.length / targetPoints)
-  const sampled: SampledLoadPoint[] = []
+  const bucketSize = Math.ceil(loadProfile.length / targetPoints);
+  const sampled: SampledLoadPoint[] = [];
 
   for (let start = 0; start < loadProfile.length; start += bucketSize) {
-    const bucket = loadProfile.slice(start, start + bucketSize)
+    const bucket = loadProfile.slice(start, start + bucketSize);
 
     if (bucket.length === 0) {
-      continue
+      continue;
     }
 
-    let peakPoint = bucket[0]
+    let peakPoint = bucket[0];
 
     for (const point of bucket) {
       if (point.activePowerKw > peakPoint.activePowerKw) {
-        peakPoint = point
+        peakPoint = point;
       }
     }
 
     sampled.push({
       label: `D${peakPoint.day + 1} ${formatQuarterHour(peakPoint.quarterHourIndex)}`,
       activePowerKw: Number(peakPoint.activePowerKw.toFixed(1)),
-    })
+    });
   }
 
-  return sampled
+  return sampled;
 }
 
-/**
- * Builds a representative 24h profile by averaging each 15-minute slot
- * across all simulated days.
- */
 export function buildAverageDayProfile(
   loadProfile: LoadChartPoint[],
 ): DayChartPoint[] {
-  const slotsPerDay = 96
-  const totals = new Array(slotsPerDay).fill(0)
-  const counts = new Array(slotsPerDay).fill(0)
+  const slotsPerDay = 96;
+  const totals = new Array(slotsPerDay).fill(0);
+  const counts = new Array(slotsPerDay).fill(0);
 
   for (const point of loadProfile) {
-    const slot = point.quarterHourIndex
+    const slot = point.quarterHourIndex;
 
     if (slot < 0 || slot >= slotsPerDay) {
-      continue
+      continue;
     }
 
-    totals[slot] += point.activePowerKw
-    counts[slot] += 1
+    totals[slot] += point.activePowerKw;
+    counts[slot] += 1;
   }
 
   return totals.map((total, slot) => ({
     label: formatQuarterHour(slot),
     activePowerKw:
       counts[slot] > 0 ? Number((total / counts[slot]).toFixed(1)) : 0,
-  }))
+  }));
 }
 
 function formatQuarterHour(quarterHourIndex: number) {
-  const totalMinutes = quarterHourIndex * 15
-  const hours = Math.floor(totalMinutes / 60)
-  const minutes = totalMinutes % 60
+  const totalMinutes = quarterHourIndex * 15;
+  const hours = Math.floor(totalMinutes / 60);
+  const minutes = totalMinutes % 60;
 
-  return `${String(hours).padStart(2, "0")}:${String(minutes).padStart(2, "0")}`
+  return `${String(hours).padStart(2, "0")}:${String(minutes).padStart(2, "0")}`;
 }

@@ -1,12 +1,12 @@
-import type { PropsWithChildren, ReactNode } from "react"
+import type { PropsWithChildren, ReactNode } from "react";
 
 type SectionCardProps = PropsWithChildren<{
-  title: string
-  description?: string
-  action?: ReactNode
-  className?: string
-  contentClassName?: string
-}>
+  title: string;
+  description?: string;
+  action?: ReactNode;
+  className?: string;
+  contentClassName?: string;
+}>;
 
 export function SectionCard({
   title,
@@ -46,7 +46,9 @@ export function SectionCard({
         {action ? <div className="shrink-0">{action}</div> : null}
       </div>
 
-      <div className={`px-5 pb-5 sm:px-5 sm:pb-5 ${contentClassName}`}>{children}</div>
+      <div className={`px-5 pb-5 sm:px-5 sm:pb-5 ${contentClassName}`}>
+        {children}
+      </div>
     </section>
-  )
+  );
 }

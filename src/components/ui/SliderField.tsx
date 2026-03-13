@@ -1,14 +1,14 @@
-import type { CSSProperties } from "react"
+import type { CSSProperties } from "react";
 
 type SliderFieldProps = {
-  label: string
-  value: number
-  min: number
-  max: number
-  step?: number
-  suffix?: string
-  onChange: (value: number) => void
-}
+  label: string;
+  value: number;
+  min: number;
+  max: number;
+  step?: number;
+  suffix?: string;
+  onChange: (value: number) => void;
+};
 
 export function SliderField({
   label,
@@ -19,15 +19,12 @@ export function SliderField({
   suffix,
   onChange,
 }: SliderFieldProps) {
-  const fillPercent = ((value - min) / (max - min)) * 100
+  const fillPercent = ((value - min) / (max - min)) * 100;
 
   return (
     <div className="space-y-2">
       <div className="flex items-center justify-between gap-3">
-        <label
-          className="text-sm font-medium"
-          style={{ color: "var(--text)" }}
-        >
+        <label className="text-sm font-medium" style={{ color: "var(--text)" }}>
           {label}
         </label>
 
@@ -59,5 +56,5 @@ export function SliderField({
         }
       />
     </div>
-  )
+  );
 }
