@@ -6,7 +6,7 @@ import { PageHeader } from "./components/layout/PageHeader";
 import { SimulationControls } from "./components/layout/SimulationControls";
 import { SectionCard } from "./components/ui/SectionCard";
 import { defaultSimulationInputs } from "./data/defaultSimulationInputs";
-import { buildAverageDayProfile, sampleLoadProfile } from "./lib/chartData";
+import { buildExemplaryDayProfile, buildLoadProfileChartData } from "./lib/chartData";
 import { runSimulation } from "./lib/simulation";
 import type {
   SimulationInputs,
@@ -97,12 +97,12 @@ function App() {
   );
 
   const loadChartData = useMemo(
-    () => sampleLoadProfile(result.loadProfile, 120),
+    () => buildLoadProfileChartData(result.loadProfile, 120),
     [result.loadProfile],
   );
 
   const dayChartData = useMemo(
-    () => buildAverageDayProfile(result.loadProfile),
+    () => buildExemplaryDayProfile(result.loadProfile),
     [result.loadProfile],
   );
 
@@ -213,8 +213,8 @@ function App() {
 
           <div className="flex min-w-0 flex-col gap-5">
             <SectionCard
-              title="Charging Load Over Time"
-              description="Peak-preserving sampled site demand over the simulated period."
+              title="Charging Load Over the Simulation Period"
+              description="Power usage of all charging stations over the simulation period."
               action={
                 <span
                   className="rounded-full border px-2.5 py-1 text-[11px] font-medium"
@@ -241,7 +241,7 @@ function App() {
             <div className="grid gap-5 2xl:grid-cols-[minmax(0,1.2fr)_360px]">
               <SectionCard
                 title="Exemplary Day Profile"
-                description="Average power demand across a representative 24-hour period."
+                description="Charging power usage during a typical day"
                 action={
                   <span
                     className="rounded-full border px-2.5 py-1 text-[11px] font-medium"

@@ -2,6 +2,7 @@ import {
   Area,
   AreaChart,
   CartesianGrid,
+  ReferenceLine,
   ResponsiveContainer,
   Tooltip,
   XAxis,
@@ -16,12 +17,14 @@ type LoadProfileChartProps = {
 };
 
 export function LoadProfileChart({ data }: LoadProfileChartProps) {
+  const peakKw = Math.max(...data.map((point) => point.activePowerKw), 0);
+
   return (
     <div className="h-[360px] w-full lg:h-[440px]">
       <ResponsiveContainer width="100%" height="100%">
         <AreaChart
           data={data}
-          margin={{ top: 10, right: 16, left: 0, bottom: 4 }}
+          margin={{ top: 12, right: 20, left: 8, bottom: 12 }}
         >
           <defs>
             <linearGradient id="loadFillGradient" x1="0" y1="0" x2="0" y2="1">
@@ -29,7 +32,7 @@ export function LoadProfileChart({ data }: LoadProfileChartProps) {
               <stop
                 offset="100%"
                 stopColor="var(--accent)"
-                stopOpacity={0.05}
+                stopOpacity={0.04}
               />
             </linearGradient>
           </defs>
@@ -44,16 +47,18 @@ export function LoadProfileChart({ data }: LoadProfileChartProps) {
             dataKey="label"
             tick={{ fontSize: 11, fill: "var(--text-muted)" }}
             tickLine={false}
-            axisLine={false}
-            minTickGap={32}
+            axisLine={{ stroke: "var(--border)" }}
+            minTickGap={36}
+            height={36}
           />
 
           <YAxis
             tick={{ fontSize: 11, fill: "var(--text-muted)" }}
             tickLine={false}
-            axisLine={false}
-            width={42}
+            axisLine={{ stroke: "var(--border)" }}
+            width={52}
             unit=" kW"
+            domain={[0, "dataMax + 10"]}
           />
 
           <Tooltip
@@ -68,9 +73,16 @@ export function LoadProfileChart({ data }: LoadProfileChartProps) {
             }}
             formatter={(value) => [
               `${Number(value ?? 0).toFixed(1)} kW`,
-              "Power",
+              "Power demand",
             ]}
-            labelFormatter={(label) => `Time: ${label}`}
+            labelFormatter={(label) => `${label}`}
+          />
+
+          <ReferenceLine
+            y={peakKw}
+            stroke="var(--warning)"
+            strokeDasharray="4 4"
+            ifOverflow="extendDomain"
           />
 
           <Area
@@ -79,6 +91,8 @@ export function LoadProfileChart({ data }: LoadProfileChartProps) {
             stroke="var(--accent)"
             fill="url(#loadFillGradient)"
             strokeWidth={2.25}
+            dot={false}
+            activeDot={{ r: 4 }}
           />
         </AreaChart>
       </ResponsiveContainer>

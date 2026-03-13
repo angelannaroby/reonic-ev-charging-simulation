@@ -10,14 +10,14 @@ type DayChartPoint = {
   activePowerKw: number;
 };
 
-export function sampleLoadProfile(
+export function buildLoadProfileChartData(
   loadProfile: LoadChartPoint[],
   targetPoints = 96,
 ): SampledLoadPoint[] {
   if (loadProfile.length <= targetPoints) {
     return loadProfile.map((point) => ({
-      label: `D${point.day + 1} ${formatQuarterHour(point.quarterHourIndex)}`,
-      activePowerKw: point.activePowerKw,
+      label: `Day ${point.day + 1}`,
+      activePowerKw: Number(point.activePowerKw.toFixed(1)),
     }));
   }
 
@@ -40,7 +40,7 @@ export function sampleLoadProfile(
     }
 
     sampled.push({
-      label: `D${peakPoint.day + 1} ${formatQuarterHour(peakPoint.quarterHourIndex)}`,
+      label: `Day ${peakPoint.day + 1}`,
       activePowerKw: Number(peakPoint.activePowerKw.toFixed(1)),
     });
   }
@@ -48,28 +48,16 @@ export function sampleLoadProfile(
   return sampled;
 }
 
-export function buildAverageDayProfile(
+export function buildExemplaryDayProfile(
   loadProfile: LoadChartPoint[],
 ): DayChartPoint[] {
-  const slotsPerDay = 96;
-  const totals = new Array(slotsPerDay).fill(0);
-  const counts = new Array(slotsPerDay).fill(0);
+  // one full simulated day = 96 quarter-hour points
+  const targetDay = loadProfile.length > 96 ? 1 : 0;
+  const dayPoints = loadProfile.filter((point) => point.day === targetDay);
 
-  for (const point of loadProfile) {
-    const slot = point.quarterHourIndex;
-
-    if (slot < 0 || slot >= slotsPerDay) {
-      continue;
-    }
-
-    totals[slot] += point.activePowerKw;
-    counts[slot] += 1;
-  }
-
-  return totals.map((total, slot) => ({
-    label: formatQuarterHour(slot),
-    activePowerKw:
-      counts[slot] > 0 ? Number((total / counts[slot]).toFixed(1)) : 0,
+  return dayPoints.map((point) => ({
+    label: formatQuarterHour(point.quarterHourIndex),
+    activePowerKw: Number(point.activePowerKw.toFixed(1)),
   }));
 }
 

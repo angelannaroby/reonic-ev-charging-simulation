@@ -31,7 +31,7 @@ export function SimulationControls({
         <SliderField
           label="Simulation Period"
           value={inputs.simulationDays}
-          min={1}
+          min={30}
           max={365}
           step={1}
           suffix="days"
