@@ -18,7 +18,7 @@ type ChargerState = {
   remainingEnergyKwh: number;
 };
 
-const DETERMINISTIC_SEED = "42";
+const DETERMINISTIC_SEED = "reonic-ev-simulation-seed";
 
 function hourProbabilityToTickProbability(hourlyProbability: number): number {
   const probability = Math.min(Math.max(hourlyProbability, 0), 1);

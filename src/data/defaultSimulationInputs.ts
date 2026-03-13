@@ -6,5 +6,5 @@ export const defaultSimulationInputs: SimulationInputs = {
   arrivalProbabilityScale: 100,
   carConsumptionKwhPer100Km: 18,
   chargingPowerKw: 11,
-  useSeededRandomness: true,
+  useSeededRandomness: false,
 };
