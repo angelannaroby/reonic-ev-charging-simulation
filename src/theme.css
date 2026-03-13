@@ -20,6 +20,7 @@
   --warning-soft: #fff4e6;
 
   --shadow: 0 12px 28px rgba(15, 23, 42, 0.06);
+  --button-shadow: 0 10px 22px rgba(95, 109, 246, 0.18);
 
   /* optional subtle gradients */
   --accent-gradient: linear-gradient(135deg, #7c72f8 0%, #6155ee 100%);

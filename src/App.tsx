@@ -1,26 +1,30 @@
-import { useEffect, useMemo, useRef, useState } from "react"
+import { useEffect, useMemo, useRef, useState } from "react";
 
-import { DayProfileChart } from "./components/charts/DayProfileChart"
-import { LoadProfileChart } from "./components/charts/LoadProfileChart"
-import { PageHeader } from "./components/layout/PageHeader"
-import { SimulationControls } from "./components/layout/SimulationControls"
-import { SectionCard } from "./components/ui/SectionCard"
-import { defaultSimulationInputs } from "./data/defaultSimulationInputs"
-import { mapDayProfile, sampleLoadProfile } from "./lib/chartData"
-import { runSimulation } from "./lib/simulation"
-import type { SimulationInputs, SimulationResult, SummaryMetric } from "./types"
+import { DayProfileChart } from "./components/charts/DayProfileChart";
+import { LoadProfileChart } from "./components/charts/LoadProfileChart";
+import { PageHeader } from "./components/layout/PageHeader";
+import { SimulationControls } from "./components/layout/SimulationControls";
+import { SectionCard } from "./components/ui/SectionCard";
+import { defaultSimulationInputs } from "./data/defaultSimulationInputs";
+import { buildAverageDayProfile, sampleLoadProfile } from "./lib/chartData";
+import { runSimulation } from "./lib/simulation";
+import type {
+  SimulationInputs,
+  SimulationResult,
+  SummaryMetric,
+} from "./types";
 
 type SummaryValues = {
-  totalEnergyKwh: number
-  theoreticalPeakKw: number
-  actualPeakKw: number
-  concurrencyPercent: number
-}
+  totalEnergyKwh: number;
+  theoreticalPeakKw: number;
+  actualPeakKw: number;
+  concurrencyPercent: number;
+};
 
 function formatNumber(value: number, maximumFractionDigits = 0) {
   return new Intl.NumberFormat("en-US", {
     maximumFractionDigits,
-  }).format(value)
+  }).format(value);
 }
 
 function getSummaryValues(result: SimulationResult): SummaryValues {
@@ -29,51 +33,53 @@ function getSummaryValues(result: SimulationResult): SummaryValues {
     theoreticalPeakKw: result.theoreticalPeakKw,
     actualPeakKw: result.actualPeakKw,
     concurrencyPercent: result.concurrencyFactor * 100,
-  }
+  };
 }
 
 function App() {
   const initialResult = useMemo(
     () => runSimulation(defaultSimulationInputs),
     [],
-  )
+  );
 
-  const [inputs, setInputs] = useState<SimulationInputs>(defaultSimulationInputs)
-  const [isRunning, setIsRunning] = useState(false)
-  const [refreshKey, setRefreshKey] = useState(0)
-  const [result, setResult] = useState<SimulationResult>(initialResult)
+  const [inputs, setInputs] = useState<SimulationInputs>(
+    defaultSimulationInputs,
+  );
+  const [isRunning, setIsRunning] = useState(false);
+  const [refreshKey, setRefreshKey] = useState(0);
+  const [result, setResult] = useState<SimulationResult>(initialResult);
   const [displaySummary, setDisplaySummary] = useState<SummaryValues>(
     getSummaryValues(initialResult),
-  )
+  );
 
-  const animationFrameRef = useRef<number | null>(null)
+  const animationFrameRef = useRef<number | null>(null);
 
   useEffect(() => {
     return () => {
       if (animationFrameRef.current !== null) {
-        window.cancelAnimationFrame(animationFrameRef.current)
+        window.cancelAnimationFrame(animationFrameRef.current);
       }
-    }
-  }, [])
+    };
+  }, []);
 
   const summaryItems = useMemo<SummaryMetric[]>(
     () => [
       {
-        label: "Total Energy",
+        label: "Total Energy Consumed",
         value: displaySummary.totalEnergyKwh,
         unit: "kWh",
         icon: "energy",
         maximumFractionDigits: 0,
       },
       {
-        label: "Theoretical Peak",
+        label: "Theoretical Max Power Demand",
         value: displaySummary.theoreticalPeakKw,
         unit: "kW",
         icon: "theoretical",
         maximumFractionDigits: 1,
       },
       {
-        label: "Actual Peak",
+        label: "Actual Max Power Demand",
         value: displaySummary.actualPeakKw,
         unit: "kW",
         icon: "actual",
@@ -88,17 +94,17 @@ function App() {
       },
     ],
     [displaySummary],
-  )
+  );
 
   const loadChartData = useMemo(
     () => sampleLoadProfile(result.loadProfile, 120),
     [result.loadProfile],
-  )
+  );
 
   const dayChartData = useMemo(
-    () => mapDayProfile(result.exemplaryDayProfile),
-    [result.exemplaryDayProfile],
-  )
+    () => buildAverageDayProfile(result.loadProfile),
+    [result.loadProfile],
+  );
 
   function updateInput<K extends keyof SimulationInputs>(
     key: K,
@@ -107,7 +113,7 @@ function App() {
     setInputs((current) => ({
       ...current,
       [key]: value,
-    }))
+    }));
   }
 
   function animateSummaryTo(
@@ -117,15 +123,15 @@ function App() {
     onComplete?: () => void,
   ) {
     if (animationFrameRef.current !== null) {
-      window.cancelAnimationFrame(animationFrameRef.current)
+      window.cancelAnimationFrame(animationFrameRef.current);
     }
 
-    const startTime = performance.now()
+    const startTime = performance.now();
 
     const animate = (currentTime: number) => {
-      const elapsed = currentTime - startTime
-      const progress = Math.min(elapsed / duration, 1)
-      const eased = 1 - Math.pow(1 - progress, 3)
+      const elapsed = currentTime - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
 
       setDisplaySummary({
         totalEnergyKwh:
@@ -139,41 +145,41 @@ function App() {
         concurrencyPercent:
           start.concurrencyPercent +
           (end.concurrencyPercent - start.concurrencyPercent) * eased,
-      })
+      });
 
       if (progress < 1) {
-        animationFrameRef.current = window.requestAnimationFrame(animate)
+        animationFrameRef.current = window.requestAnimationFrame(animate);
       } else {
-        setDisplaySummary(end)
-        animationFrameRef.current = null
-        onComplete?.()
+        setDisplaySummary(end);
+        animationFrameRef.current = null;
+        onComplete?.();
       }
-    }
+    };
 
-    animationFrameRef.current = window.requestAnimationFrame(animate)
+    animationFrameRef.current = window.requestAnimationFrame(animate);
   }
 
   function handleReset() {
-    const nextResult = runSimulation(defaultSimulationInputs)
+    const nextResult = runSimulation(defaultSimulationInputs);
 
-    setInputs(defaultSimulationInputs)
-    setResult(nextResult)
-    setDisplaySummary(getSummaryValues(nextResult))
-    setRefreshKey((current) => current + 1)
+    setInputs(defaultSimulationInputs);
+    setResult(nextResult);
+    setDisplaySummary(getSummaryValues(nextResult));
+    setRefreshKey((current) => current + 1);
   }
 
   function handleRunSimulation() {
-    setIsRunning(true)
+    setIsRunning(true);
 
-    const nextResult = runSimulation(inputs)
-    const startSummary = displaySummary
-    const endSummary = getSummaryValues(nextResult)
+    const nextResult = runSimulation(inputs);
+    const startSummary = displaySummary;
+    const endSummary = getSummaryValues(nextResult);
 
     animateSummaryTo(startSummary, endSummary, 950, () => {
-      setResult(nextResult)
-      setRefreshKey((current) => current + 1)
-      setIsRunning(false)
-    })
+      setResult(nextResult);
+      setRefreshKey((current) => current + 1);
+      setIsRunning(false);
+    });
   }
 
   const eventItems = [
@@ -181,7 +187,7 @@ function App() {
     { label: "Per month", value: formatNumber(result.chargingEvents.perMonth) },
     { label: "Per week", value: formatNumber(result.chargingEvents.perWeek) },
     { label: "Per day", value: formatNumber(result.chargingEvents.perDay, 1) },
-  ]
+  ];
 
   return (
     <main
@@ -208,7 +214,7 @@ function App() {
           <div className="flex min-w-0 flex-col gap-5">
             <SectionCard
               title="Charging Load Over Time"
-              description="Simulated charging demand over time."
+              description="Peak-preserving sampled site demand over the simulated period."
               action={
                 <span
                   className="rounded-full border px-2.5 py-1 text-[11px] font-medium"
@@ -235,7 +241,7 @@ function App() {
             <div className="grid gap-5 2xl:grid-cols-[minmax(0,1.2fr)_360px]">
               <SectionCard
                 title="Exemplary Day Profile"
-                description="Power demand across a representative 24-hour period."
+                description="Average power demand across a representative 24-hour period."
                 action={
                   <span
                     className="rounded-full border px-2.5 py-1 text-[11px] font-medium"
@@ -306,7 +312,7 @@ function App() {
         </div>
       </div>
     </main>
-  )
+  );
 }
 
-export default App
+export default App;

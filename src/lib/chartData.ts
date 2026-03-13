@@ -1,10 +1,20 @@
-import type { DayProfilePoint, LoadChartPoint } from "../types"
+import type { LoadChartPoint } from "../types"
 
 type SampledLoadPoint = {
   label: string
   activePowerKw: number
 }
 
+type DayChartPoint = {
+  label: string
+  activePowerKw: number
+}
+
+/**
+ * Builds a reduced chart series for long time ranges while preserving peaks.
+ * This avoids misleading visuals where the KPI shows the real annual peak
+ * but the chart only shows smoothed averages.
+ */
 export function sampleLoadProfile(
   loadProfile: LoadChartPoint[],
   targetPoints = 96,
@@ -26,24 +36,49 @@ export function sampleLoadProfile(
       continue
     }
 
-    const averagePower =
-      bucket.reduce((sum, point) => sum + point.activePowerKw, 0) / bucket.length
+    let peakPoint = bucket[0]
 
-    const first = bucket[0]
+    for (const point of bucket) {
+      if (point.activePowerKw > peakPoint.activePowerKw) {
+        peakPoint = point
+      }
+    }
 
     sampled.push({
-      label: `D${first.day + 1} ${formatQuarterHour(first.quarterHourIndex)}`,
-      activePowerKw: Number(averagePower.toFixed(1)),
+      label: `D${peakPoint.day + 1} ${formatQuarterHour(peakPoint.quarterHourIndex)}`,
+      activePowerKw: Number(peakPoint.activePowerKw.toFixed(1)),
     })
   }
 
   return sampled
 }
 
-export function mapDayProfile(dayProfile: DayProfilePoint[]) {
-  return dayProfile.map((point) => ({
-    label: point.hourLabel,
-    activePowerKw: point.activePowerKw,
+/**
+ * Builds a representative 24h profile by averaging each 15-minute slot
+ * across all simulated days.
+ */
+export function buildAverageDayProfile(
+  loadProfile: LoadChartPoint[],
+): DayChartPoint[] {
+  const slotsPerDay = 96
+  const totals = new Array(slotsPerDay).fill(0)
+  const counts = new Array(slotsPerDay).fill(0)
+
+  for (const point of loadProfile) {
+    const slot = point.quarterHourIndex
+
+    if (slot < 0 || slot >= slotsPerDay) {
+      continue
+    }
+
+    totals[slot] += point.activePowerKw
+    counts[slot] += 1
+  }
+
+  return totals.map((total, slot) => ({
+    label: formatQuarterHour(slot),
+    activePowerKw:
+      counts[slot] > 0 ? Number((total / counts[slot]).toFixed(1)) : 0,
   }))
 }
 

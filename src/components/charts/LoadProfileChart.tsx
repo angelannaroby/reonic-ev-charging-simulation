@@ -6,28 +6,39 @@ import {
   Tooltip,
   XAxis,
   YAxis,
-} from "recharts"
+} from "recharts";
 
 type LoadProfileChartProps = {
   data: Array<{
-    label: string
-    activePowerKw: number
-  }>
-}
+    label: string;
+    activePowerKw: number;
+  }>;
+};
 
 export function LoadProfileChart({ data }: LoadProfileChartProps) {
   return (
     <div className="h-[360px] w-full lg:h-[440px]">
       <ResponsiveContainer width="100%" height="100%">
-        <AreaChart data={data} margin={{ top: 10, right: 16, left: 0, bottom: 4 }}>
+        <AreaChart
+          data={data}
+          margin={{ top: 10, right: 16, left: 0, bottom: 4 }}
+        >
           <defs>
             <linearGradient id="loadFillGradient" x1="0" y1="0" x2="0" y2="1">
               <stop offset="0%" stopColor="var(--accent)" stopOpacity={0.22} />
-              <stop offset="100%" stopColor="var(--accent)" stopOpacity={0.05} />
+              <stop
+                offset="100%"
+                stopColor="var(--accent)"
+                stopOpacity={0.05}
+              />
             </linearGradient>
           </defs>
 
-          <CartesianGrid stroke="var(--border)" strokeDasharray="3 3" vertical={false} />
+          <CartesianGrid
+            stroke="var(--border)"
+            strokeDasharray="3 3"
+            vertical={false}
+          />
 
           <XAxis
             dataKey="label"
@@ -55,7 +66,10 @@ export function LoadProfileChart({ data }: LoadProfileChartProps) {
               fontSize: 12,
               color: "var(--text)",
             }}
-            formatter={(value) => [`${Number(value ?? 0).toFixed(1)} kW`, "Power"]}
+            formatter={(value) => [
+              `${Number(value ?? 0).toFixed(1)} kW`,
+              "Power",
+            ]}
             labelFormatter={(label) => `Time: ${label}`}
           />
 
@@ -69,5 +83,5 @@ export function LoadProfileChart({ data }: LoadProfileChartProps) {
         </AreaChart>
       </ResponsiveContainer>
     </div>
-  )
+  );
 }

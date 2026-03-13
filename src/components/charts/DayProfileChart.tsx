@@ -6,21 +6,28 @@ import {
   Tooltip,
   XAxis,
   YAxis,
-} from "recharts"
+} from "recharts";
 
 type DayProfileChartProps = {
   data: Array<{
-    label: string
-    activePowerKw: number
-  }>
-}
+    label: string;
+    activePowerKw: number;
+  }>;
+};
 
 export function DayProfileChart({ data }: DayProfileChartProps) {
   return (
     <div className="h-[280px] w-full">
       <ResponsiveContainer width="100%" height="100%">
-        <LineChart data={data} margin={{ top: 10, right: 16, left: 0, bottom: 4 }}>
-          <CartesianGrid stroke="var(--border)" strokeDasharray="3 3" vertical={false} />
+        <LineChart
+          data={data}
+          margin={{ top: 10, right: 16, left: 0, bottom: 4 }}
+        >
+          <CartesianGrid
+            stroke="var(--border)"
+            strokeDasharray="3 3"
+            vertical={false}
+          />
 
           <XAxis
             dataKey="label"
@@ -48,7 +55,10 @@ export function DayProfileChart({ data }: DayProfileChartProps) {
               fontSize: 12,
               color: "var(--text)",
             }}
-            formatter={(value) => [`${Number(value ?? 0).toFixed(1)} kW`, "Power"]}
+            formatter={(value) => [
+              `${Number(value ?? 0).toFixed(1)} kW`,
+              "Power",
+            ]}
             labelFormatter={(label) => `Time: ${label}`}
           />
 
@@ -63,5 +73,5 @@ export function DayProfileChart({ data }: DayProfileChartProps) {
         </LineChart>
       </ResponsiveContainer>
     </div>
-  )
+  );
 }
