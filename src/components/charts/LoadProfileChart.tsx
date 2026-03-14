@@ -14,10 +14,12 @@ type LoadProfileChartProps = {
     label: string
     activePowerKw: number
   }>
+  actualPeakKw: number
 }
 
-export function LoadProfileChart({ data }: LoadProfileChartProps) {
-  const peakKw = Math.max(...data.map((point) => point.activePowerKw), 0)
+export function LoadProfileChart({ data, actualPeakKw }: LoadProfileChartProps) {
+  const yAxisUpperBound =
+    Math.max(...data.map((point) => point.activePowerKw), actualPeakKw, 0) + 10
 
   return (
     <div className="h-[360px] w-full lg:h-[440px]">
@@ -39,15 +41,21 @@ export function LoadProfileChart({ data }: LoadProfileChartProps) {
             axisLine={{ stroke: 'var(--border)' }}
             minTickGap={36}
             height={36}
+            label={{
+              value: 'Simulation timeline (sampled)',
+              position: 'insideBottom',
+              offset: -4,
+              style: { fill: 'var(--text-muted)', fontSize: 11 },
+            }}
           />
 
           <YAxis
             tick={{ fontSize: 11, fill: 'var(--text-muted)' }}
             tickLine={false}
             axisLine={{ stroke: 'var(--border)' }}
-            width={52}
+            width={56}
             unit=" kW"
-            domain={[0, 'dataMax + 10']}
+            domain={[0, yAxisUpperBound]}
           />
 
           <Tooltip
@@ -60,15 +68,21 @@ export function LoadProfileChart({ data }: LoadProfileChartProps) {
               fontSize: 12,
               color: 'var(--text)',
             }}
-            formatter={(value) => [`${Number(value ?? 0).toFixed(1)} kW`, 'Power demand']}
+            formatter={(value) => [`${Number(value ?? 0).toFixed(1)} kW`, 'Load']}
             labelFormatter={(label) => `${label}`}
           />
 
           <ReferenceLine
-            y={peakKw}
+            y={actualPeakKw}
             stroke="var(--warning)"
             strokeDasharray="4 4"
             ifOverflow="extendDomain"
+            label={{
+              value: `Peak ${actualPeakKw.toFixed(1)} kW`,
+              position: 'insideTopRight',
+              fill: 'var(--warning)',
+              fontSize: 11,
+            }}
           />
 
           <Area

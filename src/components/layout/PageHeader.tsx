@@ -1,19 +1,13 @@
 import { Activity, BatteryCharging, Gauge, Layers3 } from 'lucide-react'
 
-type SummaryItem = {
-  label: string
-  value: number | null
-  unit?: string
-  icon: 'energy' | 'theoretical' | 'actual' | 'concurrency'
-  maximumFractionDigits?: number
-}
+import type { SummaryMetric } from '../../types'
 
 type PageHeaderProps = {
   title: string
-  summaryItems: SummaryItem[]
+  summaryItems: SummaryMetric[]
 }
 
-function SummaryIcon({ icon }: { icon: SummaryItem['icon'] }) {
+function SummaryIcon({ icon }: { icon: SummaryMetric['icon'] }) {
   switch (icon) {
     case 'energy':
       return (

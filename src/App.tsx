@@ -6,7 +6,7 @@ import { PageHeader } from './components/layout/PageHeader'
 import { SimulationControls } from './components/layout/SimulationControls'
 import { SectionCard } from './components/ui/SectionCard'
 import { defaultSimulationInputs } from './data/defaultSimulationInputs'
-import { buildExemplaryDayProfile, buildLoadProfileChartData } from './lib/chartData'
+import { buildLoadProfileChartData } from './lib/chartData'
 import { runSimulation } from './lib/simulation'
 import { EMPTY_SUMMARY, getSummaryValues } from './lib/summary'
 import type { SummaryValues } from './lib/summary'
@@ -91,7 +91,13 @@ function App() {
   )
 
   const dayChartData = useMemo(
-    () => (result ? buildExemplaryDayProfile(result.loadProfile) : []),
+    () =>
+      result
+        ? result.exemplaryDayProfile.map((point) => ({
+            label: point.hourLabel,
+            activePowerKw: Number(point.activePowerKw.toFixed(1)),
+          }))
+        : [],
     [result],
   )
 
@@ -237,8 +243,8 @@ function App() {
 
           <div className="flex min-w-0 flex-col gap-5">
             <SectionCard
-              title="Charging Load Over the Simulation Period"
-              description="Power usage of all charging stations over the simulation period."
+              title="Charging Load Trend Over Time"
+              description="This chart shows how the total charging power changes across the simulated period."
               action={
                 result ? (
                   <span
@@ -261,7 +267,10 @@ function App() {
                     isRunning ? 'opacity-50' : 'chart-reveal'
                   }`}
                 >
-                  <LoadProfileChart data={loadChartData} />
+                  <LoadProfileChart
+                    data={loadChartData}
+                    actualPeakKw={result.actualPeakKw}
+                  />
                 </div>
               ) : (
                 <EmptyState
@@ -274,7 +283,7 @@ function App() {
             <div className="grid gap-5 2xl:grid-cols-[minmax(0,1.2fr)_360px]">
               <SectionCard
                 title="Exemplary Day Profile"
-                description="Charging power usage during a typical day."
+                description="Charging power usage during one simulated day."
                 action={
                   result ? (
                     <span

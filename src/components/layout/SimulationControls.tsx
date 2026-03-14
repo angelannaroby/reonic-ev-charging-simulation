@@ -124,18 +124,6 @@ export function SimulationControls({
               boxShadow: '0 1px 2px rgba(15, 23, 42, 0.04)',
               outlineColor: 'var(--accent)',
             }}
-            onMouseDown={(event) => {
-              event.currentTarget.style.backgroundColor = 'var(--surface-alt)'
-              event.currentTarget.style.borderColor = 'var(--accent-soft)'
-            }}
-            onMouseUp={(event) => {
-              event.currentTarget.style.backgroundColor = 'var(--surface)'
-              event.currentTarget.style.borderColor = 'var(--border)'
-            }}
-            onMouseLeave={(event) => {
-              event.currentTarget.style.backgroundColor = 'var(--surface)'
-              event.currentTarget.style.borderColor = 'var(--border)'
-            }}
           >
             Reset to defaults
           </button>
