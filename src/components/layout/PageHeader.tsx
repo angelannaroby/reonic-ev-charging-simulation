@@ -1,48 +1,39 @@
-import { Activity, BatteryCharging, Gauge, Layers3 } from "lucide-react";
+import { Activity, BatteryCharging, Gauge, Layers3 } from 'lucide-react'
 
 type SummaryItem = {
-  label: string;
-  value: number;
-  unit?: string;
-  icon: "energy" | "theoretical" | "actual" | "concurrency";
-  maximumFractionDigits?: number;
-};
+  label: string
+  value: number | null
+  unit?: string
+  icon: 'energy' | 'theoretical' | 'actual' | 'concurrency'
+  maximumFractionDigits?: number
+}
 
 type PageHeaderProps = {
-  title: string;
-  summaryItems: SummaryItem[];
-};
+  title: string
+  summaryItems: SummaryItem[]
+}
 
-function SummaryIcon({ icon }: { icon: SummaryItem["icon"] }) {
+function SummaryIcon({ icon }: { icon: SummaryItem['icon'] }) {
   switch (icon) {
-    case "energy":
+    case 'energy':
       return (
-        <BatteryCharging
-          className="h-3.5 w-3.5"
-          style={{ color: "var(--success)" }}
-        />
-      );
-    case "theoretical":
-      return (
-        <Gauge className="h-3.5 w-3.5" style={{ color: "var(--accent)" }} />
-      );
-    case "actual":
-      return (
-        <Activity className="h-3.5 w-3.5" style={{ color: "var(--warning)" }} />
-      );
-    case "concurrency":
-      return (
-        <Layers3 className="h-3.5 w-3.5" style={{ color: "var(--accent)" }} />
-      );
+        <BatteryCharging className="h-3.5 w-3.5" style={{ color: 'var(--success)' }} />
+      )
+    case 'theoretical':
+      return <Gauge className="h-3.5 w-3.5" style={{ color: 'var(--accent)' }} />
+    case 'actual':
+      return <Activity className="h-3.5 w-3.5" style={{ color: 'var(--warning)' }} />
+    case 'concurrency':
+      return <Layers3 className="h-3.5 w-3.5" style={{ color: 'var(--accent)' }} />
     default:
-      return null;
+      return null
   }
 }
 
 function formatNumber(value: number, maximumFractionDigits = 0) {
-  return new Intl.NumberFormat("en-US", {
+  return new Intl.NumberFormat('en-US', {
     maximumFractionDigits,
-  }).format(value);
+  }).format(value)
 }
 
 export function PageHeader({ title, summaryItems }: PageHeaderProps) {
@@ -53,9 +44,9 @@ export function PageHeader({ title, summaryItems }: PageHeaderProps) {
           <span
             className="w-fit rounded-full border px-3 py-1 text-[10px] font-medium uppercase tracking-wide"
             style={{
-              borderColor: "var(--border)",
-              backgroundColor: "var(--accent-soft)",
-              color: "var(--accent)",
+              borderColor: 'var(--border)',
+              backgroundColor: 'var(--accent-soft)',
+              color: 'var(--accent)',
             }}
           >
             Reonic Take-Home Assignment
@@ -63,7 +54,7 @@ export function PageHeader({ title, summaryItems }: PageHeaderProps) {
 
           <h1
             className="text-[1.9rem] font-semibold leading-tight tracking-tight sm:text-[2.15rem]"
-            style={{ color: "var(--text)" }}
+            style={{ color: 'var(--text)' }}
           >
             {title}
           </h1>
@@ -73,14 +64,14 @@ export function PageHeader({ title, summaryItems }: PageHeaderProps) {
           {summaryItems.map((item, index) => (
             <div
               key={item.label}
-              className={`min-w-0 ${index > 0 ? "xl:border-l xl:pl-5" : ""}`}
-              style={{ borderColor: "var(--border)" }}
+              className={`min-w-0 ${index > 0 ? 'xl:border-l xl:pl-5' : ''}`}
+              style={{ borderColor: 'var(--border)' }}
             >
               <div className="flex items-center gap-1.5">
                 <SummaryIcon icon={item.icon} />
                 <p
                   className="text-[13px] font-medium leading-none"
-                  style={{ color: "var(--text-muted)" }}
+                  style={{ color: 'var(--text-muted)' }}
                 >
                   {item.label}
                 </p>
@@ -89,14 +80,17 @@ export function PageHeader({ title, summaryItems }: PageHeaderProps) {
               <div className="mt-2.5 flex items-baseline gap-1.5">
                 <span
                   className="text-[1.25rem] font-semibold leading-none tracking-tight"
-                  style={{ color: "var(--text)" }}
+                  style={{ color: 'var(--text)' }}
                 >
-                  {formatNumber(item.value, item.maximumFractionDigits ?? 0)}
+                  {item.value === null
+                    ? '—'
+                    : formatNumber(item.value, item.maximumFractionDigits ?? 0)}
                 </span>
-                {item.unit ? (
+
+                {item.value !== null && item.unit ? (
                   <span
                     className="text-[13px] font-medium leading-none"
-                    style={{ color: "var(--text-muted)" }}
+                    style={{ color: 'var(--text-muted)' }}
                   >
                     {item.unit}
                   </span>
@@ -107,5 +101,5 @@ export function PageHeader({ title, summaryItems }: PageHeaderProps) {
         </div>
       </div>
     </header>
-  );
+  )
 }

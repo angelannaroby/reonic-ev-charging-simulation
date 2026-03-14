@@ -1,14 +1,14 @@
-import type { CSSProperties } from "react";
+import type { CSSProperties } from 'react'
 
 type SliderFieldProps = {
-  label: string;
-  value: number;
-  min: number;
-  max: number;
-  step?: number;
-  suffix?: string;
-  onChange: (value: number) => void;
-};
+  label: string
+  value: number
+  min: number
+  max: number
+  step?: number
+  suffix?: string
+  onChange: (value: number) => void
+}
 
 export function SliderField({
   label,
@@ -19,25 +19,25 @@ export function SliderField({
   suffix,
   onChange,
 }: SliderFieldProps) {
-  const fillPercent = ((value - min) / (max - min)) * 100;
+  const fillPercent = ((value - min) / (max - min)) * 100
 
   return (
     <div className="space-y-2">
       <div className="flex items-center justify-between gap-3">
-        <label className="text-sm font-medium" style={{ color: "var(--text)" }}>
+        <label className="text-sm font-medium" style={{ color: 'var(--text)' }}>
           {label}
         </label>
 
         <div
           className="min-w-[72px] rounded-xl border px-3 py-1.5 text-right text-sm font-medium"
           style={{
-            borderColor: "var(--border)",
-            backgroundColor: "var(--accent-soft)",
-            color: "var(--text)",
+            borderColor: 'var(--border)',
+            backgroundColor: 'var(--accent-soft)',
+            color: 'var(--text)',
           }}
         >
           {value}
-          {suffix ? ` ${suffix}` : ""}
+          {suffix ? ` ${suffix}` : ''}
         </div>
       </div>
 
@@ -51,10 +51,10 @@ export function SliderField({
         className="slider"
         style={
           {
-            "--fill-percent": `${fillPercent}%`,
+            '--fill-percent': `${fillPercent}%`,
           } as CSSProperties
         }
       />
     </div>
-  );
+  )
 }

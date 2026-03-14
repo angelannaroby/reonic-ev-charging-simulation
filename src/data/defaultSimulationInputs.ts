@@ -1,4 +1,4 @@
-import type { SimulationInputs } from "../types";
+import type { SimulationInputs } from '../types'
 
 export const defaultSimulationInputs: SimulationInputs = {
   simulationDays: 365,
@@ -6,5 +6,5 @@ export const defaultSimulationInputs: SimulationInputs = {
   arrivalProbabilityScale: 100,
   carConsumptionKwhPer100Km: 18,
   chargingPowerKw: 11,
-  useSeededRandomness: false,
-};
+  useSeededRandomness: true,
+}
