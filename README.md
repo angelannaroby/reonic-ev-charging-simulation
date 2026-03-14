@@ -7,8 +7,7 @@ You can view the running simulation directly on the **[GitHub Page](https://ange
 
 ## Task 1
 
-The simulation logic is implemented in  
-[src/lib/simulation.ts](src/lib/simulation.ts)
+The simulation logic is implemented in [src/lib/simulation.ts](src/lib/simulation.ts)
 
 By default, the program simulates 20 chargepoints with 11 kW charging power over one year in 15-minute intervals, following the probability distributions provided in the assignment.
 
