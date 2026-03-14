@@ -1,73 +1,38 @@
-# React + TypeScript + Vite
+# EV Charging Demand Simulator
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Thank you for taking the time to review this submission.
 
-Currently, two official plugins are available:
+This repository contains my implementation of the Reonic take-home assignment. It covers **Task 1 (simulation logic)** and **Task 2a (frontend visualization)**.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Task 1
 
-## React Compiler
+The simulation logic is implemented here:
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+https://github.com/YOUR_USERNAME/YOUR_REPO/blob/main/src/lib/simulation.ts
 
-## Expanding the ESLint configuration
+By default, the program simulates **20 chargepoints with 11 kW charging power over one year in 15-minute intervals**, following the probability distributions provided in the assignment.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+The simulation calculates the values requested in the task: total energy consumed, theoretical maximum power demand, actual peak demand, and the resulting concurrency factor.
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## Task 2a
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+Task 2a provides a small interface to run the simulation and visualize the results. The UI allows adjusting the input parameters and shows the resulting metrics together with load charts and an exemplary daily profile.
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+## Notes on the simulation logic
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+One thing I was slightly unsure about while implementing the simulation was how to interpret the **arrival probabilities** from the assignment. The table provides probabilities per hour, while the simulation runs in **15-minute ticks**.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+To keep the expected number of arrivals consistent with the hourly probabilities, I convert the hourly probability into an equivalent per-tick probability before applying it in the simulation.
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+The UI also includes an option to run the simulation with **deterministic randomness**, using a seeded random generator.
+
+## Tech Stack
+
+React, TypeScript, Tailwind CSS, Recharts, Vite.
+
+No UI component libraries were used, in line with the assignment instructions. I also tried to keep the overall structure and implementation as **simple and straightforward as possible**.
+
+## Running the project
+
+Install the dependencies with `npm install`.
+Start the development server with `npm run dev`.
