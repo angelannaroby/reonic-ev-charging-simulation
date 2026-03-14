@@ -19,7 +19,7 @@ The simulation calculates the values requested in the task: total energy consume
 Task 2a provides a small interface to run the simulation and visualize the results.  
 The UI allows adjusting the input parameters and viewing the resulting metrics and load profiles.
 
-*** Notes on the simulation logic ***
+**Notes on the simulation logic**
 
 One thing I was slightly unsure about while implementing the simulation was how to interpret the arrival probabilities from the assignment. The table provides probabilities per hour, while the simulation runs in 15-minute ticks.
 
