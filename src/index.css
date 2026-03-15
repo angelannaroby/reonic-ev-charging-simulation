@@ -1,5 +1,5 @@
-@import "tailwindcss";
-@import "./theme.css";
+@import 'tailwindcss';
+@import './theme.css';
 
 :root {
   font-family:
@@ -7,7 +7,7 @@
     system-ui,
     -apple-system,
     BlinkMacSystemFont,
-    "Segoe UI",
+    'Segoe UI',
     sans-serif;
   line-height: 1.5;
   font-weight: 400;
@@ -44,12 +44,12 @@ textarea {
   color: inherit;
 }
 
-input[type="number"]::-webkit-outer-spin-button,
-input[type="number"]::-webkit-inner-spin-button {
+input[type='number']::-webkit-outer-spin-button,
+input[type='number']::-webkit-inner-spin-button {
   margin: 0;
 }
 
-input[type="range"].slider {
+input[type='range'].slider {
   -webkit-appearance: none;
   appearance: none;
   width: 100%;
@@ -66,13 +66,13 @@ input[type="range"].slider {
   cursor: pointer;
 }
 
-input[type="range"].slider::-webkit-slider-runnable-track {
+input[type='range'].slider::-webkit-slider-runnable-track {
   height: 4px;
   border-radius: 9999px;
   background: transparent;
 }
 
-input[type="range"].slider::-webkit-slider-thumb {
+input[type='range'].slider::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
   width: 16px;
@@ -85,19 +85,19 @@ input[type="range"].slider::-webkit-slider-thumb {
   margin-top: -6px;
 }
 
-input[type="range"].slider::-moz-range-track {
+input[type='range'].slider::-moz-range-track {
   height: 4px;
   border-radius: 9999px;
   background: var(--border);
 }
 
-input[type="range"].slider::-moz-range-progress {
+input[type='range'].slider::-moz-range-progress {
   height: 4px;
   border-radius: 9999px;
   background: var(--success);
 }
 
-input[type="range"].slider::-moz-range-thumb {
+input[type='range'].slider::-moz-range-thumb {
   width: 14px;
   height: 14px;
   border-radius: 9999px;

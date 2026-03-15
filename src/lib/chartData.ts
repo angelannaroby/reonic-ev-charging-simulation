@@ -16,6 +16,8 @@ export function buildLoadProfileChartData(
     }))
   }
 
+  // Downsample the series into fixed-size buckets and keep the peak of each bucket
+  // so the chart remains readable without flattening demand spikes.
   const bucketSize = Math.ceil(loadProfile.length / targetPoints)
   const sampled: SampledLoadPoint[] = []
 

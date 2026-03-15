@@ -18,7 +18,9 @@ export function ToggleField({ label, checked, onChange }: ToggleFieldProps) {
         onClick={() => onChange(!checked)}
         className="relative inline-flex h-[18px] w-8 items-center rounded-full border transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2"
         style={{
-          borderColor: checked ? 'rgba(99, 102, 241, 0.32)' : 'var(--border-strong, #cbd5e1)',
+          borderColor: checked
+            ? 'rgba(99, 102, 241, 0.32)'
+            : 'var(--border-strong, #cbd5e1)',
           backgroundColor: checked ? 'var(--accent)' : 'var(--surface-muted, #e9edf5)',
           boxShadow: checked
             ? 'inset 0 1px 2px rgba(255,255,255,0.12)'
@@ -31,7 +33,9 @@ export function ToggleField({ label, checked, onChange }: ToggleFieldProps) {
           }`}
           style={{
             backgroundColor: '#ffffff',
-            borderColor: checked ? 'rgba(99, 102, 241, 0.22)' : 'rgba(148, 163, 184, 0.55)',
+            borderColor: checked
+              ? 'rgba(99, 102, 241, 0.22)'
+              : 'rgba(148, 163, 184, 0.55)',
             boxShadow: checked
               ? '0 0 0 1px rgba(255,255,255,0.92), 0 1px 3px rgba(15, 23, 42, 0.18)'
               : '0 1px 3px rgba(15, 23, 42, 0.14)',

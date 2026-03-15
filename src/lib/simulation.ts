@@ -20,6 +20,7 @@ type ChargerState = {
 
 const DETERMINISTIC_SEED = 'reonic-seed'
 
+// Convert an hourly arrival probability into an equivalent 15-minute probability
 function hourProbabilityToTickProbability(hourlyProbability: number): number {
   const probability = Math.min(Math.max(hourlyProbability, 0), 1)
   return 1 - Math.pow(1 - probability, 1 / 4)
